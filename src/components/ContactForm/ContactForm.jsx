@@ -20,7 +20,7 @@ export default function ContactForm() {
 		const newContact = { name: name, number: number};
 		const exist = contacts.some((contact) => normalizeValue(contact.name) === normalizeValue(name))
 		if (exist) {
-			Notify.info("This contact is already in list")
+			Notify.failure("This contact is already exist")
 			return
 		}
 		// dispatch(
@@ -30,6 +30,7 @@ export default function ContactForm() {
 		// 		id: nanoid(),
 		// 	})
 		// )
+		Notify.success("Contact is added successfuly")
 		dispatch(addContactThunk(newContact)) //{name, number}
 		form.reset()
 	}

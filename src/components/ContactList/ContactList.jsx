@@ -9,6 +9,8 @@ import { deleteContactThunk, getContactsThunk } from "redux/thunks/contactsThunk
 export default function ContactList() {
 
 	const dispatch = useDispatch()
+	const contacts = useSelector(getContacts)
+	const filter = useSelector(getFilter)
 
 	useEffect(() => {
 		dispatch(getContactsThunk());
@@ -16,8 +18,6 @@ export default function ContactList() {
 
 	}, [dispatch]) // [] or [dispactch] -  because we want to UseEff launched only 1 time 
 
-	const contacts = useSelector(getContacts)
-	const filter = useSelector(getFilter)
 
 	const deleteContact = (id) => {
 		return () => {
