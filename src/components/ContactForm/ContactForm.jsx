@@ -1,8 +1,10 @@
 import styles from "./ContactForm.module.css"
-import { nanoid } from "nanoid"
-import { addContact, getContacts } from "../../redux/contacts/contactsSlice"
+// import { nanoid } from "nanoid"
+import { getContacts } from "../../redux/contacts/contactsSlice"
+// addContact,
 import { useDispatch, useSelector } from "react-redux"
 import { Notify } from "notiflix/build/notiflix-notify-aio"
+import { addContactThunk } from "redux/thunks/contactsThunk"
 
 export default function ContactForm() {
 	const dispatch = useDispatch()
@@ -11,21 +13,24 @@ export default function ContactForm() {
 
 	const onFormSubmit = (event) => {
 		event.preventDefault()
+
 		const form = event.target
 		const name = form.elements.name.value
 		const number = form.elements.number.value
+		const newContact = { name: name, number: number};
 		const exist = contacts.some((contact) => normalizeValue(contact.name) === normalizeValue(name))
 		if (exist) {
 			Notify.info("This contact is already in list")
 			return
 		}
-		dispatch(
-			addContact({
-				name,
-				number,
-				id: nanoid(),
-			})
-		)
+		// dispatch(
+		// 	addContact({
+		// 		name,
+		// 		number,
+		// 		id: nanoid(),
+		// 	})
+		// )
+		dispatch(addContactThunk(newContact)) //{name, number}
 		form.reset()
 	}
 

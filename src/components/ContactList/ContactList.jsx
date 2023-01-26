@@ -1,15 +1,27 @@
 import styles from "./ContactList.module.css"
 import { useSelector, useDispatch } from "react-redux"
-import { removeContact, getContacts } from "../../redux/contacts/contactsSlice"
+import { getContacts } from "../../redux/contacts/contactsSlice"
+// removeContact,
 import { getFilter } from "../../redux/filter/filterSlice"
+import { useEffect } from "react"
+import { deleteContactThunk, getContactsThunk } from "redux/thunks/contactsThunk"
 
 export default function ContactList() {
+
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(getContactsThunk());
+
+
+	}, [dispatch]) // [] or [dispactch] -  because we want to UseEff launched only 1 time 
+
 	const contacts = useSelector(getContacts)
 	const filter = useSelector(getFilter)
-	const dispatch = useDispatch()
+
 	const deleteContact = (id) => {
 		return () => {
-			dispatch(removeContact(id))
+			dispatch(deleteContactThunk(id))
 		}
 	}
 
